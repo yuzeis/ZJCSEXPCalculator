@@ -1,0 +1,189 @@
+/* ----------------------------- CSS Variables ------------------------------ */
+:root {
+  --primary:       #4caf50;
+  --primary-dark:  #409444;
+  --bg:            #f5f7fa;
+  --card:          #fff;
+  --text:          #333;
+  --radius:        12px;
+  --shadow:        0 6px 18px rgba(0, 0, 0, .08);
+}
+
+/* ---------------------------- Global Reset -------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------------------ Layout ------------------------------------ */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Noto Sans CJK", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ------------------------------- Card ------------------------------------- */
+.card {
+  width: 400px;
+  padding: 32px 40px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ---------------------------- Typography ---------------------------------- */
+h2 {
+  margin-bottom: 24px;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* ------------------------------- Form ------------------------------------- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+input[type="number"] {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #ccd1d9;
+  border-radius: var(--radius);
+  transition: border-color .2s;
+}
+
+input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* -------------------------------- Button ---------------------------------- */
+button {
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background .2s;
+}
+
+button:disabled {
+  background: #c8c8c8;
+  cursor: not-allowed;
+}
+
+button:not(:disabled) {
+  background: var(--primary);
+  color: #fff;
+}
+
+button:not(:disabled):hover {
+  background: var(--primary-dark);
+}
+
+/* ------------------------------ Results ----------------------------------- */
+.results {
+  margin-top: 28px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.results span,
+#countdown {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+/* ---------------------------- Overlay / Editor ---------------------------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(0, 0, 0, .4);
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.editor {
+  width: 90vw;
+  max-width: 660px;
+  max-height: 80vh;
+  padding: 24px;
+  overflow: auto;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ------------------------------ Table ------------------------------------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+th {
+  background: #f0f2f5;
+  position: sticky;
+  top: 0;
+}
+
+td[contenteditable] {
+  background: #fffbea;
+}
+
+/* ------------------------ Editor Action Buttons --------------------------- */
+.editor-actions {
+  margin-top: 16px;
+  text-align: right;
+}
+
+.editor-actions button {
+  width: auto;
+  margin-left: 8px;
+  padding: 8px 16px;
+}
+
+.editor-actions .secondary {
+  background: #888;
+  color: #fff;
+}
+
+/* -------------------------- Visit Counter --------------------------------- */
+#visitCounterFixed {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 0;
+  font-size: .9em;
+  text-align: center;
+  background: #f2f2f2;
+  color: #555;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, .05);
+  z-index: 1000;
+}
+
+@media (max-width: 600px) {
+  #visitCounterFixed {
+    font-size: .85em;
+    padding: 8px 0;
+  }
+}

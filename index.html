@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+  <title>经验时间计算器</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  <script src="static/js/app.js" defer></script>
+</head>
+
+<body>
+  <main class="card">
+    <h2>经验时间计算器</h2>
+    <form id="expForm" autocomplete="off" novalidate>
+      <div class="form-group">
+        <label for="currentLevel">现在等级</label>
+        <input
+          id="currentLevel"
+          type="number"
+          min="1"
+          placeholder="如 98"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="currentExp">现有经验</label>
+        <input
+          id="currentExp"
+          type="number"
+          min="0"
+          placeholder="如 5000"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="targetLevel">目标等级</label>
+        <input
+          id="targetLevel"
+          type="number"
+          min="1"
+          placeholder="如 100"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="expPerHour">每小时经验</label>
+        <input
+          id="expPerHour"
+          type="number"
+          min="1"
+          placeholder="如 20000"
+        >
+      </div>
+      <button id="calcBtn"  type="submit"  disabled>开始计算</button>
+      <button id="editBtn"  type="button" disabled>编辑经验表</button>
+    </form>
+    <section
+      id="results"
+      class="results"
+      hidden
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <p id="remainingExp"></p>
+      <p id="neededSeconds"></p>
+      <p id="nowTime"></p>
+      <p id="finishTime"></p>
+      <p id="countdown"></p>
+    </section>
+  </main>
+  <footer id="visitCounterFixed">
+    页面访问次数：<span id="counter">加载中...</span>
+    ｜今日访问：<span id="todayCounter">加载中...</span>
+  </footer>
+  <div class="overlay" id="overlay" hidden>
+    <div class="editor" role="dialog" aria-modal="true">
+      <h3>编辑等级经验表</h3>
+      <table id="csvTable"></table>
+      <div class="editor-actions">
+        <button id="addRowBtn"  type="button">添加行</button>
+        <button id="saveCsvBtn" type="button">保存</button>
+        <button id="cancelBtn"  type="button" class="secondary">取消</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
