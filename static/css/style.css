@@ -1,0 +1,158 @@
+/* ===== 基础主题变量 ===== */
+:root{
+  --primary:#4caf50;
+  --primary-dark:#409444;
+  --bg:#f5f7fa;
+  --card:#fff;
+  --text:#333;
+  --radius:12px;
+  --shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+
+html{ font-size:16px; }
+html,body{ touch-action:manipulation; }
+
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:12px;
+  font-family:"Times New Roman",Times,"Noto Serif CJK SC",serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.35;
+}
+
+.card{
+  width:100%;
+  max-width:420px;
+  padding:24px 28px;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.card h2{ margin-bottom:8px; text-align:center; font-size:1.25rem; }
+
+.form-group{ display:flex; flex-direction:column; gap:2px; margin-bottom:8px; }
+
+input[type="number"], input[type="text"]{
+  padding:3px 5px;
+  font-size:14px;
+  border:1px solid #ccd1d9;
+  border-radius:var(--radius);
+  transition:border-color .2s;
+}
+input:focus{ border-color:var(--primary); outline:none; }
+
+.boost-row{ display:flex; flex-wrap:wrap; gap:10px; }
+.boost-col{ flex:1 1 0; display:flex; align-items:center; gap:4px; }
+.boost-col label{ white-space:nowrap; font-size:14px; }
+.boost-col input{ flex:0 0 96px; padding:3px 6px; font-size:13px; }
+
+label[for="stoneBoosts"]{ color:transparent; position:relative; }
+label[for="stoneBoosts"]::before{
+  content:"加速石头次数";
+  color:var(--text);
+  position:absolute; inset:0;
+  font-size:14px;
+}
+
+button{
+  width:100%; padding:8px 0; margin-top:8px;
+  font-size:15px; font-weight:600; border:none;
+  border-radius:var(--radius); cursor:pointer;
+  transition:background .2s;
+}
+button:disabled{ background:#c8c8c8; cursor:not-allowed; }
+button:not(:disabled){ background:var(--primary); color:#fff; }
+button:not(:disabled):hover{ background:var(--primary-dark); }
+
+.results{ margin-top:10px; font-size:14px; line-height:1.4; }
+.results p{ margin:2px 0; }
+.results span, #countdown, #acceleratedCountdown{ font-weight:700; color:var(--primary); }
+
+#externalCountdown{ font-weight:700; color:var(--primary); }
+
+#neededSeconds{ display:none!important; }
+
+footer{
+  display:flex; align-items:center; justify-content:center; gap:4px; flex-wrap:wrap; margin-top:12px;
+}
+footer>*{ display:inline-flex; align-items:center; white-space:nowrap; }
+footer details summary{ cursor:pointer; }
+
+#visitCounterFixed{
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  width:50%; padding:3px 0; font-size:.75em; line-height:1.1; text-align:center;
+  background:#f2f2f2; color:#555; box-shadow:0 -2px 6px rgba(0,0,0,.05);
+  border-radius:var(--radius) var(--radius) 0 0; z-index:1000;
+}
+@media(max-width:600px){
+  #visitCounterFixed{ width:90%; padding:3px 0; font-size:.7em; }
+  .boost-col input{ flex-basis:80px; }
+  .card{ max-width:96vw; }
+}
+
+/* ===== 遮罩层：用 hidden 属性控制显示，移除 JS 内联 display 操作 ===== */
+.overlay{
+  position:fixed; inset:0;
+  display:flex;  /* 默认展示布局，由 hidden 控制隐藏 */
+  align-items:center; justify-content:center;
+  background:rgba(0,0,0,.45); z-index:2000;
+}
+.overlay[hidden]{ display:none !important; }  /* hidden 优先生效 */
+
+.editor{
+  max-width:90vw; max-height:90vh; overflow:auto;
+  padding:20px 28px; background:#fff; border-radius:var(--radius); box-shadow:var(--shadow);
+  font-family:"Times New Roman",Times,"Noto Serif CJK SC",serif;
+}
+.editor h3{ margin-bottom:10px; font-size:1.05rem; font-weight:600; }
+
+#csvTable{ border-collapse:collapse; font-size:.85rem; width:100%; }
+#csvTable th, #csvTable td{ border:1px solid #ddd; padding:4px 6px; text-align:center; }
+#csvTable th{ background:#f8f8f8; }
+#csvTable td[contenteditable="true"]{ background:#fffbea; }
+/* JS 会切换 .invalid 类，统一在 CSS 呈现错误状态 */
+#csvTable td.invalid{ background:#ffeaea; outline:1px solid #ff4d4f; }
+
+.editor-actions{ margin-top:12px; text-align:right; }
+.editor-actions button{ width:auto; padding:6px 18px; margin-left:6px; font-size:13px; }
+
+h2{ margin-bottom:0.25rem; }
+.version-note{ margin:2px 0; color:#c00; font-size:.75rem; display:block; text-align:center; }
+details{ margin-top:4px; font-size:.85rem; }
+details summary{ cursor:pointer; outline:none; }
+pre#historyContent{ white-space:pre-wrap; line-height:1.4; font-size:.75rem; margin:4px 0 0; padding:4px 0; }
+
+.editor img{ float:right; max-width:200px; margin-left:12px; }
+
+/* ===== 表单 2×2 网格布局（保持原有） ===== */
+#expForm{ display:grid; grid-template-columns:repeat(2,1fr); column-gap:12px; }
+#expForm .form-group:first-child, #expForm .boost-row, #expForm button{ grid-column:1 / -1; }
+@media (max-width:600px){ #expForm{ grid-template-columns:1fr; } }
+#expForm{ justify-content:center; }
+.boost-row{ justify-content:flex-start; }
+.boost-col{ flex:0 0 auto; }
+
+/* ===== 轻量 Toast 样式：由 JS 赋予 .toast & .toast-{type} 类 ===== */
+#toastHost{
+  position:fixed; top:1rem; right:1rem;
+  display:flex; flex-direction:column; gap:.5rem;
+  z-index:10000; pointer-events:none;
+}
+.toast{
+  max-width:360px; padding:.6rem .8rem; border-radius:.75rem;
+  backdrop-filter:blur(6px); box-shadow:0 6px 18px rgba(0,0,0,.15);
+  pointer-events:auto; color:#0b0b0c;
+  font:500 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:rgba(255,255,255,.88);
+}
+.toast-error{ background:rgba(255,71,87,.90); }
+.toast-warn{ background:rgba(255,164,27,.90); }
+.toast-success{ background:rgba(46,213,115,.90); }
+/* .toast-info 使用默认底色 */
