@@ -818,7 +818,6 @@
       eph: '#expPerHour',
       dailyBoosts: '#dailyBoosts',
       stoneBoosts: '#stoneBoosts',
-      autoCalcDaily: '#autoCalcDaily',
       calcBtn: '#calcBtn',
       editBtn: '#editBtn',
       results: '#results',
@@ -1118,17 +1117,6 @@
   // =====================================================================================
 
   const BusinessLogic = {
-    /**
-     * 计算日常加速次数
-     * @param {number} totalSeconds - 总耗时（秒）
-     * @returns {number} 日常加速次数
-     */
-    calculateDailyBoosts(totalSeconds) {
-      const totalHours = totalSeconds / CONFIG.TIME.SECS_PER_HOUR;
-      const days = totalHours / 24;
-      return Math.floor(days); // 每24小时1次加速
-    },
-
     renderResult: debounce(function(remain, secs) {
       if (!dom.results) return;
       setHidden(dom.results, false);
@@ -1136,23 +1124,7 @@
       const now = Date.now();
       store.data.finishAt = now + secs * 1000;
 
-      // 判断是否自动计算日常加速（显式检查避免歧义）
-      const isAutoCalc = dom.autoCalcDaily && dom.autoCalcDaily.checked === true;
-      let dailyBoostsCount = 0;
-
-      if (isAutoCalc) {
-        // 自动计算模式：根据总耗时计算日常加速次数
-        dailyBoostsCount = this.calculateDailyBoosts(secs);
-        // 更新输入框显示（但保持禁用状态）
-        if (dom.dailyBoosts) {
-          dom.dailyBoosts.value = dailyBoostsCount;
-        }
-      } else {
-        // 手动输入模式：直接读取输入框的值（与原版逻辑一致）
-        dailyBoostsCount = toNumber(dom.dailyBoosts?.value);
-      }
-
-      const boosts = dailyBoostsCount + toNumber(dom.stoneBoosts?.value);
+      const boosts = toNumber(dom.dailyBoosts?.value) + toNumber(dom.stoneBoosts?.value);
       const accel = boosts * CONFIG.BUSINESS.ACCEL_SECONDS_PER_BOOST;
       store.data.accelFinishAt = store.data.finishAt - accel * 1000;
 
@@ -1436,29 +1408,6 @@
 
   const bindEvents = () => {
     EventManager.add(dom.form, 'submit', (e) => BusinessLogic.onSubmit(e));
-
-    // 自动计算日常加速 checkbox 事件
-    EventManager.add(dom.autoCalcDaily, 'change', (e) => {
-      const isAutoCalc = e.target.checked;
-
-      // 控制日常加速输入框所在列的显示/隐藏
-      const dailyBoostCol = dom.dailyBoosts?.parentElement;
-      if (dailyBoostCol) {
-        setHidden(dailyBoostCol, isAutoCalc);
-      }
-
-      if (isAutoCalc) {
-        // 如果已有计算结果，立即更新日常加速次数
-        if (store.data.finishAt > Date.now()) {
-          const remainingSecs = (store.data.finishAt - Date.now()) / 1000;
-          const autoBoosts = BusinessLogic.calculateDailyBoosts(remainingSecs);
-          if (dom.dailyBoosts) {
-            dom.dailyBoosts.value = autoBoosts;
-          }
-        }
-      }
-      // 取消勾选时不修改输入框的值，保持用户原有输入
-    });
 
     EventManager.add(dom.csvSel, 'change', async () => {
       setDisabled(dom.calcBtn, true);
